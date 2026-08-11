@@ -115,7 +115,7 @@ export function projectsByKind(kind: MediaKind): Project[] {
 // ---------------------------------------------------------------------------
 export const BTS_PHOTOS = [
   '/static/images/bts/bts-1.png',
-  '/static/images/bts/bts-2.png',
+  '/static/images/bts/bts-2.jpg',
   '/static/images/bts/bts-3.jpg',
   '/static/images/bts/bts-4.jpg',
 ]
