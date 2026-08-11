@@ -4,6 +4,7 @@
 - **Name**: June Hong (홍준성) Portfolio
 - **Goal**: An English-language editorial portfolio for video/photo creative professional June Hong, styled after codapress.co.uk and cobloc.archi — clean split-navigation homepage, category-filterable project grids, and a resume-driven About page.
 - **Status**: All placeholder content in place (44 category slots filled with CC/PD-licensed "Reference Image" stock placeholders); ready to be swapped for real client work slot-by-slot without touching the layout code.
+- **Source code**: https://github.com/junehongjkwg/my-portfolio — this is the permanent source of truth for the project; clone or download it here anytime, independent of the sandbox/preview URL.
 
 ## Features Completed
 - **Home (`/`)** — Full-bleed hero, animated split-navigation into VIDEO / PHOTO sections with live work/category counts, marquee strip, "Selected Work" preview grid interleaved with BTS/candid photos.
@@ -75,11 +76,19 @@ Local dev in this sandbox uses PM2 (`ecosystem.config.cjs`) to run `wrangler pag
 ## Deployment
 - **Platform**: Cloudflare Pages (not yet deployed to production — currently running only in the local sandbox dev environment)
 - **Status**: ❌ Not deployed to a public Cloudflare Pages URL yet
-- **Version control**: Git repository initialized locally; GitHub sync pending user authorization via the sandbox's GitHub tab
+- **Version control**: Git repository synced to GitHub — https://github.com/junehongjkwg/my-portfolio (branch `main`). All source files (src/, public/, config) are versioned there and can be edited/cloned independently of this sandbox.
 - **Last updated**: 2026-08-11
 
 ## Known Pending Items
 - Video project thumbnails currently link to `#` placeholders — replace with real external video URLs in `src/data/content.ts` (`Project.externalUrl`) once available.
 - All 44 category project slots use licensed stock "Reference Image" placeholders — replace `cover` images and set `isPlaceholder: false` as real client work is confirmed.
 - About page currently lists two roles with "Present" end dates (JK WORLD GROUP and a freelance role) — confirm with June Hong whether both are concurrent, intentional.
-- GitHub remote sync pending — requires GitHub authorization to be completed via the sandbox's GitHub tab before code can be pushed.
+
+## How to Edit This Project Later (via GitHub)
+Since the code now lives at https://github.com/junehongjkwg/my-portfolio, you can make changes anytime without this sandbox:
+1. **Clone it**: `git clone https://github.com/junehongjkwg/my-portfolio.git`
+2. **Install deps**: `npm install`
+3. **Run locally**: `npm run build && npm run dev:sandbox` (or `npx wrangler pages dev dist`), then open `http://localhost:3000`
+4. **Edit content**: category/project data lives in `src/data/content.ts`; page markup in `src/index.tsx` and `src/components/`; styles in `public/static/style.css`; interactivity in `public/static/app.js`
+5. **Push changes**: `git add . && git commit -m "your message" && git push`
+6. **Deploy**: `npm run deploy` (requires a Cloudflare account + `wrangler` login) to publish to Cloudflare Pages, or open a new Genspark sandbox pointed at this GitHub repo to continue working with this same AI assistant setup.
