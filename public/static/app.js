@@ -194,6 +194,130 @@
   }
 
   // -------------------------------------------------------------------------
+  // Magnetic elements — nav links / CTA pills pull slightly toward cursor
+  // -------------------------------------------------------------------------
+  function initMagnetic() {
+    if (isTouch) return
+    var els = document.querySelectorAll('[data-magnetic]')
+    els.forEach(function (el) {
+      var strength = parseFloat(el.getAttribute('data-magnetic')) || 0.35
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect()
+        var relX = e.clientX - (rect.left + rect.width / 2)
+        var relY = e.clientY - (rect.top + rect.height / 2)
+        el.style.setProperty('--mx', (relX * strength).toFixed(1) + 'px')
+        el.style.setProperty('--my', (relY * strength).toFixed(1) + 'px')
+      })
+      el.addEventListener('mouseleave', function () {
+        el.style.setProperty('--mx', '0px')
+        el.style.setProperty('--my', '0px')
+      })
+    })
+  }
+
+  // -------------------------------------------------------------------------
+  // Parallax backgrounds (hero split-tiles) — shifts on scroll position
+  // -------------------------------------------------------------------------
+  function initParallax() {
+    var els = document.querySelectorAll('[data-parallax]')
+    if (els.length === 0) return
+    function update() {
+      var vh = window.innerHeight
+      els.forEach(function (el) {
+        var factor = parseFloat(el.getAttribute('data-parallax')) || 0.15
+        var rect = el.parentElement.getBoundingClientRect()
+        var center = rect.top + rect.height / 2
+        var offset = (center - vh / 2) * factor
+        el.style.setProperty('--tile-shift', offset.toFixed(1) + 'px')
+      })
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    update()
+  }
+
+  // -------------------------------------------------------------------------
+  // Count-up numbers (e.g. "24 Works") — animates from 0 on scroll-in
+  // -------------------------------------------------------------------------
+  function initCountUp() {
+    var els = document.querySelectorAll('.count-up')
+    if (els.length === 0) return
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return
+          var el = entry.target
+          var target = parseInt(el.getAttribute('data-count'), 10) || 0
+          var start = null
+          var duration = 900
+          function step(ts) {
+            if (!start) start = ts
+            var progress = Math.min((ts - start) / duration, 1)
+            var eased = 1 - Math.pow(1 - progress, 3)
+            el.textContent = Math.round(eased * target)
+            if (progress < 1) window.requestAnimationFrame(step)
+          }
+          window.requestAnimationFrame(step)
+          observer.unobserve(el)
+        })
+      },
+      { threshold: 0.4 }
+    )
+    els.forEach(function (el) { observer.observe(el) })
+  }
+
+  // -------------------------------------------------------------------------
+  // Project card 3D tilt — follows cursor position within the card
+  // -------------------------------------------------------------------------
+  function initTilt() {
+    if (isTouch) return
+    var cards = document.querySelectorAll('[data-tilt]')
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect()
+        var px = (e.clientX - rect.left) / rect.width - 0.5
+        var py = (e.clientY - rect.top) / rect.height - 0.5
+        var rotY = px * 10
+        var rotX = py * -10
+        card.style.transform = 'perspective(900px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg)'
+      })
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)'
+      })
+    })
+  }
+
+  // -------------------------------------------------------------------------
+  // Page transition curtain — plays a brief wipe when navigating internally
+  // -------------------------------------------------------------------------
+  function initPageTransition() {
+    var curtain = document.querySelector('.page-transition')
+    if (!curtain) return
+
+    // Reveal on load (curtain starts covering, then slides away)
+    curtain.classList.add('is-active')
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        curtain.classList.remove('is-active')
+      })
+    })
+
+    var links = document.querySelectorAll('a[href^="/"]')
+    links.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = link.getAttribute('href')
+        if (!href || href.charAt(0) !== '/' || link.target === '_blank') return
+        if (href === window.location.pathname) return
+        e.preventDefault()
+        curtain.classList.add('is-leaving')
+        window.setTimeout(function () {
+          window.location.href = href
+        }, 380)
+      })
+    })
+  }
+
+  // -------------------------------------------------------------------------
   // Header shrink on scroll (subtle)
   // -------------------------------------------------------------------------
   function initHeaderScroll() {
@@ -222,5 +346,10 @@
     initFilter()
     initLightbox()
     initHeaderScroll()
+    initMagnetic()
+    initParallax()
+    initCountUp()
+    initTilt()
+    initPageTransition()
   })
 })()

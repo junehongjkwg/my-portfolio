@@ -14,6 +14,7 @@ export const ProjectCard: FC<{ project: Project; index: number }> = ({ project, 
       className="project-card reveal"
       data-category={project.categoryKey}
       data-cursor={isVideo ? 'Watch' : 'View'}
+      data-tilt="true"
       {...tagProps}
     >
       <span className="card-index mono">{String(index + 1).padStart(2, '0')}</span>

@@ -18,8 +18,11 @@ export const renderer = jsxRenderer(({ children, title }) => {
           rel="stylesheet"
         />
         <link href="/static/style.css" rel="stylesheet" />
+        <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+        <link rel="alternate icon" href="/static/favicon.svg" />
       </head>
       <body>
+        <div className="page-transition" aria-hidden="true"></div>
         {children}
         <script src="/static/app.js"></script>
       </body>

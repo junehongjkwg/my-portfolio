@@ -15,7 +15,12 @@ export const Header: FC<{ active?: string }> = ({ active }) => {
       </a>
       <nav className="main-nav" aria-label="Primary">
         {NAV_ITEMS.map((item) => (
-          <a key={item.href} href={item.href} className={active === item.href ? 'is-active' : ''}>
+          <a
+            key={item.href}
+            href={item.href}
+            className={active === item.href ? 'is-active' : ''}
+            data-magnetic="0.4"
+          >
             {item.label}
           </a>
         ))}

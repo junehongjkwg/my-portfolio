@@ -85,6 +85,7 @@ app.get('/', (c) => {
         <a href="/video" className="split-tile" data-cursor="Enter">
           <div
             className="split-bg"
+            data-parallax="0.15"
             style={`background-image:url('/static/images/video/brand-film/1.jpg')`}
           ></div>
           <div className="split-tile-content">
@@ -93,12 +94,15 @@ app.get('/', (c) => {
               VIDEO
               <span className="ko">비디오</span>
             </h2>
-            <p className="split-count mono">{videoCount} Works / 6 Categories</p>
+            <p className="split-count mono">
+              <span className="count-up" data-count={videoCount}>0</span> Works / 6 Categories
+            </p>
           </div>
         </a>
         <a href="/photo" className="split-tile" data-cursor="Enter">
           <div
             className="split-bg"
+            data-parallax="0.15"
             style={`background-image:url('/static/images/photo/venue/1.jpg')`}
           ></div>
           <div className="split-tile-content">
@@ -107,7 +111,9 @@ app.get('/', (c) => {
               PHOTO
               <span className="ko">포토</span>
             </h2>
-            <p className="split-count mono">{photoCount} Works / 5 Categories</p>
+            <p className="split-count mono">
+              <span className="count-up" data-count={photoCount}>0</span> Works / 5 Categories
+            </p>
           </div>
         </a>
       </div>
@@ -127,7 +133,7 @@ app.get('/', (c) => {
         </div>
         <ProjectGridWithBts projects={PROJECTS.slice(0, 9)} interval={12} />
         <div style="text-align:center;margin-top:48px;">
-          <a href="/video" className="filter-pill" data-cursor="Go">
+          <a href="/video" className="filter-pill" data-cursor="Go" data-magnetic="0.5">
             View All Work →
           </a>
         </div>
